@@ -3,11 +3,12 @@ import React, { useState } from 'react';
 export default function TodoForm({ addTodo }) {
   const [value, setValue] = useState("");
 
-  const handleSubmit = e => {
+  function handleSubmit(e) {
     e.preventDefault();
+
     if (!value) return;
     addTodo(value);
-    setValue("");
+    setValue('');
   };
 
   return (
@@ -16,6 +17,7 @@ export default function TodoForm({ addTodo }) {
         type="text"
         className="input"
         value={value}
+        placeholder="Nueva Tarea"
         onChange={e => setValue(e.target.value)}
       />
     </form>

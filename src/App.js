@@ -1,34 +1,41 @@
 import React, { useState } from 'react';
 import './App.css';
 import TodoForm from './components/form';
+import Header from './components/header';
 import Todo from './components/todo';
 import data from './data/data';
 
 function App() {
   const [todos, setTodos] = useState(data);
 
-  const addTodo = text => {
-    const newTodos = [...todos, {text}];
-    setTodos(newTodos);
+  function addTodo(text) {
+    const newTodos = [...todos, { text }];
+    const local = localStorage.setItem('todos', JSON.stringify(newTodos));
+    setTodos(local);
   };
 
-  const completeTodo = index => {
+  function completeTodo(index) {
     const newTodos = [...todos];
     newTodos[index].isCompleted = true;
     setTodos(newTodos);
   };
 
-  const removeTodo = index => {
+  function removeTodo(index) {
     const newTodos = [...todos];
-    newTodos.splice(index, 1);
-    setTodos(newTodos);
+    const remove = localStorage.removeItem('todos', newTodos);
+    // newTodos.splice(index, 1);
+    setTodos(remove);
   }
+
+  // const s = localStorage.getItem('todos')
+  // console.log(s)
 
   return (
     <>
-      <header>React Todo</header>
+      <Header />
       <div className="App">
         <div className="todo-list">
+        <TodoForm addTodo={addTodo} />
           {todos.map((todo, index) => (
             <Todo
               key={index}
@@ -38,7 +45,6 @@ function App() {
               removeTodo={removeTodo}
             />
           ))}
-          <TodoForm addTodo={addTodo} />
         </div>
       </div>
     </>
