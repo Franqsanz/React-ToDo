@@ -46,26 +46,38 @@ header {
   margin-bottom: 10px;
   border-radius: 10px;
   padding: 0.6em;
-  box-shadow: 0 0 4px #333333;
+  box-shadow: 0 0 3px black;
   justify-content: space-between;
+  align-items: center;
+}
+
+li {
+  list-style: none;
+}
+
+form {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  margin-bottom: 4ch;
 }
 
 button {
   margin-right: 5px;
+  padding: 0.5em;
 }
 
 .input {
-  width: 100%;
+  width: 80%;
   padding: 0.5em;
   border-radius: 10px;
-  margin-bottom: 4ch;
   border: 3px solid #242424;
   font-size: 1.2rem;
   outline: none;
 }
 
 .input:focus {
-  border: 3px solid #fd3737;
+  border: 3px solid #7b01af;
 }
 
 /* @media (prefers-reduced-motion: no-preference) {

@@ -1,15 +1,15 @@
 import React from 'react';
 
-export default function Todo({ todo, index, completeTodo, removeTodo }) {
+export default function Todo({ todo, index, completeTodo, deleteTodo }) {
   return (
-    <div
+    <ul
       className="todo"
       style={{ textDecoration: todo.isCompleted ? "line-through" : null }} >
-      {todo.text}
+      <li> {todo.text} </li>
       <div>
-        <button onClick={() => completeTodo(index)}>Complete</button>
-        <button onClick={() => removeTodo(index)}>X</button>
+        <button onClick={() => completeTodo(index)} disabled>Complete</button>
+        <button onClick={() => deleteTodo(todo.id)}>X</button>
       </div>
-    </div>
+    </ul>
   );
 }

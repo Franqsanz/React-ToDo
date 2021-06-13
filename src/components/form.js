@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 
 export default function TodoForm({ addTodo }) {
-  const [value, setValue] = useState("");
+  // const [value, setValue] = useState("");
+  const [newTodo, setNewTodo] = useState('');
 
   function handleSubmit(e) {
     e.preventDefault();
 
-    if (!value) return;
-    addTodo(value);
-    setValue('');
+    if (!newTodo) return;
+    addTodo(newTodo);
+    setNewTodo('');
   };
 
   return (
@@ -16,10 +17,11 @@ export default function TodoForm({ addTodo }) {
       <input
         type="text"
         className="input"
-        value={value}
+        value={newTodo}
         placeholder="Nueva Tarea"
-        onChange={e => setValue(e.target.value)}
+        onChange={e => setNewTodo(e.target.value)}
       />
+      <button type="submit" onClick={addTodo}>Agregar</button>
     </form>
   )
 }

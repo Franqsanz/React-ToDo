@@ -1,54 +1,84 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
-import TodoForm from './components/form';
+// import TodoForm from './components/form';
 import Header from './components/header';
 import Todo from './components/todo';
-import data from './data/data';
+
+// function completeTodo(index) {
+//   const newTodos = [...todos];
+//   newTodos[index].isCompleted = true;
+//   setTodos(newTodos);
+// };
 
 function App() {
-  const [todos, setTodos] = useState(data);
+	const [todos, setTodos] = useState([]);
+	const [newTodo, setNewTodo] = useState("");
 
-  function addTodo(text) {
-    const newTodos = [...todos, { text }];
-    const local = localStorage.setItem('todos', JSON.stringify(newTodos));
-    setTodos(local);
-  };
+	function saveData(newTodos) {
+		localStorage.setItem("todos", JSON.stringify(newTodos));
+	};
 
-  function completeTodo(index) {
-    const newTodos = [...todos];
-    newTodos[index].isCompleted = true;
-    setTodos(newTodos);
-  };
+	useEffect(() => {
+		if (localStorage.getItem("todos")) {
+			setTodos(JSON.parse(localStorage.getItem("todos")));
+		}
+	}, []);
 
-  function removeTodo(index) {
-    const newTodos = [...todos];
-    const remove = localStorage.removeItem('todos', newTodos);
-    // newTodos.splice(index, 1);
-    setTodos(remove);
-  }
+	function addTodo() {
+		if (newTodo.toLocaleUpperCase()) {
+			let newTodos = [...todos,
+			{
+				id: Date.now(),
+				text: newTodo.toLocaleUpperCase(),
+				isCompleted: false
+			}
+			];
 
-  // const s = localStorage.getItem('todos')
-  // console.log(s)
+			setTodos(newTodos);
+			setNewTodo("");
+			saveData(newTodos);
+		}
+	};
 
-  return (
-    <>
-      <Header />
-      <div className="App">
-        <div className="todo-list">
-        <TodoForm addTodo={addTodo} />
-          {todos.map((todo, index) => (
-            <Todo
-              key={index}
-              index={index}
-              todo={todo}
-              completeTodo={completeTodo}
-              removeTodo={removeTodo}
-            />
-          ))}
-        </div>
-      </div>
-    </>
-  );
+	function handleSubmit(e) {
+		e.preventDefault();
+	};
+
+	function deleteTodo(id) {
+		let newTodos = todos.filter((todo) => todo.id !== id);
+		setTodos(newTodos);
+
+		saveData(newTodos);
+	};
+
+	return (
+		<>
+			<Header />
+			<div className="App">
+				<div className="todo-list">
+					<form onSubmit={handleSubmit}>
+						<input
+							type="text"
+							className="input"
+							placeholder="Agregar Tarea"
+							value={newTodo}
+							onChange={(e) => setNewTodo(e.target.value)}
+						/>
+						<button onClick={addTodo}>Agregar Tarea</button>
+					</form>
+					{/* <TodoForm addTodo={addTodo} /> */}
+					{todos.map((todo, index) => (
+						<Todo
+							key={index}
+							index={index}
+							todo={todo}
+							// completeTodo={completeTodo}
+							deleteTodo={deleteTodo}
+						/>
+					)).reverse()}
+				</div>
+			</div>
+		</>
+	)
 }
-
 export default App;
