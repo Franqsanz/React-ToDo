@@ -4,12 +4,6 @@ import './App.css';
 import Header from './components/header';
 import Todo from './components/todo';
 
-// function completeTodo(index) {
-//   const newTodos = [...todos];
-//   newTodos[index].isCompleted = true;
-//   setTodos(newTodos);
-// };
-
 function App() {
 	const [todos, setTodos] = useState([]);
 	const [newTodo, setNewTodo] = useState("");
@@ -44,6 +38,13 @@ function App() {
 		e.preventDefault();
 	};
 
+	function completeTodo(index) {
+		const newTodos = [...todos];
+		newTodos[index].isCompleted = true;
+		setTodos(newTodos);
+		saveData(newTodos);
+	};
+
 	function deleteTodo(id) {
 		let newTodos = todos.filter((todo) => todo.id !== id);
 		setTodos(newTodos);
@@ -60,7 +61,7 @@ function App() {
 						<input
 							type="text"
 							className="input"
-							placeholder="Agregar Tarea"
+							placeholder="Nombre de la Tarea"
 							value={newTodo}
 							onChange={(e) => setNewTodo(e.target.value)}
 						/>
@@ -72,7 +73,7 @@ function App() {
 							key={index}
 							index={index}
 							todo={todo}
-							// completeTodo={completeTodo}
+							completeTodo={completeTodo}
 							deleteTodo={deleteTodo}
 						/>
 					)).reverse()}
